@@ -3,12 +3,13 @@ define s = Character("Sabine", color="#F86983")
 define pov = Character("[povname]", color= "#145480")
 
 # Creates variables that can be changed throughout the game
-default dont_get_it = False 
-default points = 0  #point counter starts at 0
-default correct_answer = False
-default centered_menu = False
+default dont_get_it = False
+default points = 0  # Point counter starts at 0
+default correct_answer = False # Answer for first question is incorrect by default
+default centered_menu = False # Menus are placed below the center by default
+default inventory_icon = ["images/1.png", "images/2.png", "images/3.png", "images/4.png", "images/5.png"] # Default icons in the inventory
 
-# Creates a type of animation that can be used at any time. 
+# Creates a type of animation that can be used at any time
 transform zoom_in_and_out:
     #Anchors it at the center of the element
     anchor (0.5, 0.5)
@@ -33,11 +34,17 @@ transform rotation:
     easein 2.0 xzoom 1.0
     repeat
 
+# Creates an inventory to display on screen
+
+
 # VISUAL NOVEL STARTS HERE
+
 label start:
     
+    
     # SCENE 1 
-    scene bg coffeeshop           
+    scene bg coffeeshop     
+    with fade      
 
     # Allows python support
     python:
@@ -191,7 +198,7 @@ label start:
     label correct_answer:
         # If answer is correct, 1 point is added to the counter
         if correct_answer == True:
-            $ points =+ 1
+            $ points += 1
         s "Very Nice!"
         s "I have something to show you."
         hide the_fool_yeah 
@@ -222,13 +229,15 @@ label start:
         s "These are, in fact, two different worlds."
         jump plato_world_of_ideas
     
+    # SCENE 4 
+
     label plato_world_of_ideas:
         scene bg plato
         with fade
         s "Do you happen to know this guy?"
         # Applies special centered menu created in screen.rpy file (line 211)
         $ centered_menu = True
-        menu centered_menu:                                             
+        menu plato_menu:                                             
             "Yes":  
                 jump plato_yes
             "No": 
@@ -236,21 +245,161 @@ label start:
 
     label plato_yes:
         s "Who would this be?"
+        $ answer = renpy.input("It is...")
+        $ answer = answer.strip()
+        # If user answers correcty, correct_answer variable is changed to 'True' and they advance to next screen
+        if answer == "Plato":
+            $ correct_answer = True
+            jump correct_answer_2
+        elif answer == "plato":
+            $ correct_answer = True
+            jump correct_answer_2
+        else:
+            "Please try again"
+            "I'll give you a hint..."
+            "He was a Greek philosopher..."
+            "Pl..."
+            jump plato_yes    
 
+    label correct_answer_2:
+        scene bg coffeeshoptable
+        show sabine happy at right
+        with fade
+
+        if correct_answer == True:
+            $ points += 1   
+        window hide
+
+        show screen points_screen 
+        $ renpy.pause (3.0)
+        window auto
+        hide screen points_screen
+        s "Very Good!"
+        s "I was confident in your answer."
+        s "This is Plato."
+        s "He is widely attributed the famous Theory of Forms."
+        s "Plato suggested that for every thing in the material world, there is a non-physical idea that inhabits the World of Forms."
+        s "This is very similar to how The Wizard of Oz portrays Dorothy's world v.s. the Magical land of Oz."      
+        show hunk at static_left
+        with dissolve
+        s "For every person that Dorothy knows in Kansas, there is an abstract version of it in Oz."
+        s "For example, Hunk, the farmhand, is the Scarecrow."
+        hide hunk at static_left
+        with dissolve
+        s "Now let me show you another thing..."
+        jump inventory_available
 
     label plato_no:
         s "That's OK!"
-        s "Please open this book to find out"
+        s "This is Plato"
+        s "He was a Greek philosopher."
+        scene bg coffeeshoptable
+        show sabine happy at right
+        with fade
+        s "He is widely attributed the famous Theory of Forms."
+        s "Plato suggested that for every thing in the material world, there is a non-physical idea that inhabits the World of Forms."
+        s "This is very similar to how The Wizard of Oz portrays Dorothy's world v.s. the Magical land of Oz."      
+        show hunk at static_left
+        with dissolve
+        s "For every person that Dorothy knows in Kansas, there is an abstract version of it in Oz."
+        s "For example, Hunk, the farmhand, is the Scarecrow."
+        hide hunk at static_left
+        with dissolve
+        s "Now let me show you another thing..."
+        jump inventory_available
 
+    #SCENE 5 
 
+    label inventory_available:
+        window hide
+        show screen inventory_button
+        $ renpy.pause (3.0)
+        # Hides one item from the inventory
+        $ inventory_icon.remove("images/4.png")
+        $ inventory_icon.remove("images/5.png")
+        s "You have unlocked an inventory!"
+        s "It's a basket, just like the one Dorothy has."
+        s "Click on 'Inventory' to be reminded of what you've learned today. You can close the window by click on 'Close Inventory'"
+        s "Everytime you learn something, you'll add an item related to that question to your inventory."
+        s "As you've seen, there's still one item you haven't unlocked yet..."
+        s "Maybe i've unlocked it for you..."
+        # Show hidden image again and hides another one
+        $ inventory_icon.append("images/4.png")
+        $ inventory_icon.remove("images/3.png")
+        s "Give it a try..."
+        s "That's right... I have some new information!"
+        s "Let's head to my library and I'll show you what I found"
+        jump library
 
+    # SCENE 6
 
+    label library:
+        scene bg roomlibrary
+        show sabine happy at right
+        with fade
+        s "Sorry for the mess."
+        s "I got quite lost in my research."
+        s "Do you happen to remember the Emerald City?"
+        menu emerald_city_menu:                                             
+            "Is it a restaurant?":
+                $ dont_get_it = True 
+                call restaurant_hint
+                jump emerald_city_menu
+            "It's where the Wizard lives": 
+                jump where_wizard_lives
+                $ correct_answer == True
+            "It's where Dorothy is heading!" if dont_get_it:
+                jump where_wizard_lives
+                $ correct_answer == True
+            
+    label restaurant_hint:
+        s "LOL, it is."
+        s "But it's inspired by one emblematic place in Oz..."
+        return 
+        
+    label where_wizard_lives:
+        scene bg roomlibrary
+        show sabine happy at right
+        if correct_answer == True:
+            $ points += 1
+        show screen points_screen 
+        $ renpy.pause (3.0)
+        window auto
+        hide screen points_screen
+        s "That's right!"
+        s "It is the ultimate destination..."
+        s "But once Dorothy reaches her goal she realizes she never needed the wizard."
+        s "She always had the power to go home by herself. She just had to believe in it."
+        s "Now, going back to the I book I found..."
+        s "It reminds me of Emerald City..."
+        hide sabine happy 
+        with fade
+        s "Click on the following button to find out which book I'm talking about..."
+        # Calls emerald_button into the screen
+        call screen emerald_button
 
+    label book_reveal:
+        scene bg roomlibrary
+        show sabine eyesclosed at right
+        with fade
+        show hermes_book at zoom_in_and_out 
+        with dissolve
+        show sabine happy at right
+        s "It's called The Emerald Tablet by Hermes Trismegistus"
+        s "Many people argue the real author remains unknown..."
+        $ inventory_icon.append("images/5.png")
+        $ inventory_icon.remove("images/4.png")
+        s "I have added it to your inventory. Take a look!"
+        s "I still haven't read it, so this will be the end of our investigation for today."
+        s "Thank you for everything, [povname]!"
+        s "Let's do this again sometime."
+        jump end_screen
 
-        s "She has to walk down the yellow brick road in order to meet the powerful Wizard of Oz."
-        s "She has to find her way back home..."
-        s "Or in other words..."
-        s "She has to "
+    label end_screen:
+        hide screen counter_screen
+        hide screen inventory_button
+        scene bg ending_screen
+        with fade
+        $ renpy.pause (10.0)
 
-    
-
+    # NOVEL ENDS
