@@ -1,26 +1,22 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 103, in script call
-    call answerselector
-  File "game/script.rpy", line 103, in script call
-    call answerselector
-ScriptError: could not find label 'answerselector'.
+  File "game/script.rpy", line 145, in script
+    jump correct_answer
+ScriptError: could not find label 'correct_answer'.
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/script.rpy", line 103, in script call
-    call answerselector
-  File "/Applications/renpy-8.3.3-sdk/renpy/ast.py", line 1414, in execute
-    rv = renpy.game.context().call(label, return_site=self.next.name)
-  File "game/script.rpy", line 103, in script call
-    call answerselector
+  File "game/script.rpy", line 145, in script
+    jump correct_answer
+  File "/Applications/renpy-8.3.3-sdk/renpy/ast.py", line 1699, in execute
+    rv = renpy.game.script.lookup(target)
   File "/Applications/renpy-8.3.3-sdk/renpy/script.py", line 1103, in lookup
     raise ScriptError("could not find label '%s'." % str(original))
-ScriptError: could not find label 'answerselector'.
+ScriptError: could not find label 'correct_answer'.
 
 macOS-14.4-arm64-arm-64bit arm64
 Ren'Py 8.3.3.24111502
 final_project_wizard_of_oz 1.0
-Tue Dec 10 02:38:23 2024
+Wed Dec 11 03:09:09 2024

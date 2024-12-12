@@ -136,7 +136,7 @@ style window:
     yalign gui.textbox_yalign
     ysize gui.textbox_height
 
-    background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
+    background Image("gui/textbox2.png", xalign=0.5, yalign=1.0)
 
 style namebox:
     xpos gui.name_xpos
@@ -208,9 +208,18 @@ style input:
 screen choice(items):
     style_prefix "choice"
 
-    vbox:
-        for i in items:
-            textbutton i.caption action i.action
+    if centered_menu:
+        vbox:
+            xalign 0.5
+            ypos 540
+            yanchor 0.5
+            spacing gui.choice_spacing
+            for i in items:
+                textbutton i.caption action i.action
+    else:
+        vbox:
+            for i in items:
+                textbutton i.caption action i.action
 
 
 style choice_vbox is vbox
@@ -243,6 +252,8 @@ screen quick_menu():
 
     if quick_menu:
 
+        add Color((46, 50, 50, 70)) xalign 0.5 yalign 1.0 size(1920, 40)
+
         hbox:
             style_prefix "quick"
 
@@ -270,10 +281,13 @@ style quick_button is default
 style quick_button_text is button_text
 
 style quick_button:
+
     properties gui.button_properties("quick_button")
 
 style quick_button_text:
     properties gui.text_properties("quick_button")
+    color "#cd4040"
+    idle_color "#ffffff" # try adding this one too
 
 
 ################################################################################
