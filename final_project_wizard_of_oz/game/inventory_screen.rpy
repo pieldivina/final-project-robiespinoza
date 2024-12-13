@@ -46,10 +46,10 @@ screen inventory_screen():
         yalign 0.4
         # for each item in list:
         for item in inventory_icon:
-                    #open a frame which will display items as icons and allow a description to be shown.
+                    #open a frame which will display items as icons and allow a description to be shown if cliked on.
                     frame:
                         imagebutton idle item action [SetVariable("name_item", (item_name.get(item))), SetVariable("show_description", (description.get(item))), SetVariable("show_item", item), ToggleVariable("open_inventory", True)]
-    #show description & use button if open_inventory is True
+    # Show the item description if open_inventory is True
     if open_inventory == True:
         frame:
             background "#ca0b35a9"
