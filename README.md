@@ -16,12 +16,12 @@ Since Ren'Py is python3 based, my project features python concepts reviewed in c
 
 I also learned many of the Ren'Py functionalities such as:
 
-    - Creating **screens**
-    - Jumping through **labels**
-    - Make interactive **buttons**
-    - Make animated **transformations** 
-    - Customize the **GUI** to show personalized dialogue boxes
-    - Create personalized **Menus** that respond to specific choices made by the user
+    - Creating screens
+    - Jumping through labels
+    - Make interactive buttons
+    - Make animated transformations 
+    - Customize the GUI to show personalized dialogue boxes
+    - Create personalized Menus that respond to specific choices made by the user
     - And many more...
 
 I would suggest to explore the *script.rpy* file and all of the screens I created: 
