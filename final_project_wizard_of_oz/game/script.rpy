@@ -40,7 +40,8 @@ transform rotation:
 # VISUAL NOVEL STARTS HERE
 
 label start:
-    
+    # Background music
+    play music "audio/Wet_Land_ST.mp3" volume 1.0
     
     # SCENE 1 
     scene bg coffeeshop     
@@ -319,10 +320,10 @@ label start:
         $ inventory_icon.remove("images/5.png")
         s "You have unlocked an inventory!"
         s "It's a basket, just like the one Dorothy has."
-        s "Click on 'Inventory' to be reminded of what you've learned today. You can close the window by click on 'Close Inventory'"
+        s "Click on 'Inventory' to be reminded of what you've learned today. You can close the window by clicking on 'Close Inventory. You can click on the icons too!'"
         s "Everytime you learn something, you'll add an item related to that question to your inventory."
         s "As you've seen, there's still one item you haven't unlocked yet..."
-        s "Maybe i've unlocked it for you..."
+        s "Maybe I can unlock it for you..."
         # Show hidden image again and hides another one
         $ inventory_icon.append("images/4.png")
         $ inventory_icon.remove("images/3.png")
@@ -367,10 +368,10 @@ label start:
         window auto
         hide screen points_screen
         s "That's right!"
-        s "It is the ultimate destination..."
+        s "It's the ultimate destination..."
         s "But once Dorothy reaches her goal she realizes she never needed the wizard."
         s "She always had the power to go home by herself. She just had to believe in it."
-        s "Now, going back to the I book I found..."
+        s "Now, going back to the book I found..."
         s "It reminds me of Emerald City..."
         hide sabine happy 
         with fade
